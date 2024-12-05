@@ -1,0 +1,46 @@
+<%- include('../partials/head') %>
+
+    <body>
+        <header>
+            <h1>Inventory Application</h1>
+        </header>
+
+        <main>
+
+            <div class="containerCard">
+                <% locals.manhwas.forEach(manhwa=> { %>
+
+                    <div class="manhwa-card">
+                        <div class="manhwa-card-header">
+
+                            <img src="<%= manhwa.url_img %>" alt="<%= manhwa.title %>" class="manhwa-card-image">
+                        </div>
+
+                        <div class="manhwa-card-content">
+                            <h2>
+                                <%= manhwa.title %>
+                            </h2>
+                            <p>
+                                <%= manhwa.description %>
+                            </p>
+                        </div>
+                        <div class="manhwa-card-footer">
+                            <span className="manhwa-card-chapters">
+                                <%= manhwa.caps %> chapters
+                            </span>
+
+                        </div>
+
+
+
+                    </div>
+                    <% }); %>
+            </div>
+            <div class="container">
+
+                <a href="/new-manhwa" class="btn btn-outline">New</a>
+            </div>
+        </main>
+    </body>
+
+    <%- include('../partials/footer') %>
