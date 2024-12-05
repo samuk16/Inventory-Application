@@ -1,0 +1,332 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* body{
+    background-color: #101720;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    height:100vh;
+} */
+
+body {
+  background-color: #030712; /* Casi negro */
+  color: #f9fafb; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Estilos generales del contenedor */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  width: 100%;
+  display:flex;
+  justify-content:center;
+
+}
+
+main{
+      display:flex;
+      flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+}
+
+/* Estilos base para botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem; /* rounded-md en Tailwind */
+  font-weight: 500;
+  transition: all 0.2s ease;
+  outline: none;
+  cursor: pointer;
+  width : fit-content
+}
+
+a{
+    text-decoration:none;
+    color: #3b82f6;
+}
+
+
+/* Variantes de botones */
+.btn-primary {
+  background-color: #0070f3;
+  color: white;
+  border: 1px solid #0070f3;
+  padding: 10px 16px;
+}
+
+.btn-primary:hover {
+  background-color: #0061d1;
+  border-color: #0061d1;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #0070f3;
+  border: 1px solid #e5e7eb;
+  padding: 10px 16px;
+}
+
+.btn-secondary:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #0070f3;
+  border: 1px solid #0070f3;
+  padding: 10px 16px;
+}
+
+.btn-outline:hover {
+  background-color: rgba(0, 112, 243, 0.1);
+}
+
+/* Estados de botón */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+}
+
+/* Responsive container */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 12px;
+  }
+}
+
+.containerCard{
+      display:flex;
+  justify-content:center;
+}
+
+/* body {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+} */
+
+.manhwa-card {
+  width: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #2a2a2a;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.manhwa-card:hover {
+  transform: translateY(-5px);
+}
+
+.manhwa-card-header {
+  height: 200px;
+  overflow: hidden;
+}
+
+.manhwa-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.manhwa-card:hover .manhwa-card-image {
+  transform: scale(1.05);
+}
+
+.manhwa-card-content {
+  padding: 16px;
+}
+
+.manhwa-card-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.manhwa-card-author {
+  margin: 4px 0 12px;
+  font-size: 0.875rem;
+  color: #b0b0b0;
+}
+
+.manhwa-card-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.manhwa-card-genre {
+  padding: 4px 8px;
+  background-color: #3a3a3a;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  color: #e0e0e0;
+}
+
+.manhwa-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #333333;
+  border-top: 1px solid #444444;
+}
+
+.manhwa-card-chapters {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #b0b0b0;
+}
+
+.manhwa-card-button {
+  padding: 8px 16px;
+  background-color: #0070f3;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.manhwa-card-button:hover {
+  background-color: #0056b3;
+}
+
+.dark-form {
+    background-color: #2a2a2a;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.dark-form h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #b0b0b0;
+    font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #0070f3;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #b0b0b0;
+    border-radius: 3px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '\2714';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0070f3;
+}
+
+/* button[type="submit"] {
+    background-color: #0070f3;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+} */
+
+@media (max-width: 480px) {
+    .dark-form {
+        padding: 20px;
+    }
+}
