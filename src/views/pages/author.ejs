@@ -1,0 +1,21 @@
+<%- include('../partials/head') %>
+
+    <body>
+        <header>
+            <h1>Authors</h1>
+        </header>
+
+        <div class="container-authors">
+            <% if (locals.authors) { %>
+                <% authors.forEach(author=> { %>
+                    <div class="author-card">
+                        <h2>
+                            <%= author.name_author %>
+                        </h2>
+                    </div>
+                    <% }) %>
+                        <% } %>
+        </div>
+    </body>
+
+    <%- include('../partials/footer') %>
