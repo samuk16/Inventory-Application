@@ -13,13 +13,29 @@
     height:100vh;
 } */
 
+header{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+nav > ul{
+  display:flex;
+  gap:10px;
+}
+nav > ul > li > a {
+  text-decoration:none;
+  color:#fff;
+}
+nav > ul > li {
+  list-style:none;
+}
 body {
   background-color: #030712; /* Casi negro */
   color: #f9fafb; 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.6;
   margin: 0;
-  padding: 0;
+  padding: 10px;
 }
 
 
@@ -46,6 +62,18 @@ main{
   gap:20px;
 }
 
+.container-authors{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+}
+.author-card{
+  padding:10px;
+  border-radius:10px;
+  border : 1px solid gray;
+}
+
 /* Estilos base para botones */
 .btn {
   display: inline-flex;
@@ -61,7 +89,9 @@ main{
 
 a{
     text-decoration:none;
-    color: #3b82f6;
+    /* color: #3b82f6; */
+    color: #ffffff;
+
 }
 
 
@@ -309,7 +339,7 @@ a{
     color: #0070f3;
 }
 
-/* button[type="submit"] {
+.btnSubmit {
     background-color: #0070f3;
     color: #ffffff;
     border: none;
@@ -321,12 +351,51 @@ a{
     width: 100%;
 }
 
-button[type="submit"]:hover {
+.btnSubmit:hover {
     background-color: #0056b3;
-} */
+}
 
 @media (max-width: 480px) {
     .dark-form {
         padding: 20px;
     }
 }
+
+ .modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro */
+    
+  }
+
+  .modal-content {
+  
+    /* background-color: #fff; */
+    margin: 15% auto;
+    padding: 20px;
+    /* border: 1px solid #888;   */
+    width: 30%;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
