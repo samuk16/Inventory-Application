@@ -1,0 +1,21 @@
+<%- include('../partials/head') %>
+
+    <body>
+        <header>
+            <h1>Authors</h1>
+        </header>
+
+        <div class="container-authors">
+            <% if (locals.tags) { %>
+                <% tags.forEach(tag=> { %>
+                    <div class="author-card">
+                        <h2>
+                            <%= tag.name_tag %>
+                        </h2>
+                    </div>
+                    <% }) %>
+                        <% } %>
+        </div>
+    </body>
+
+    <%- include('../partials/footer') %>
