@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { getAllAuthors } from "../db/queries";
+import { getAllAuthors, postAuthor } from "../db/queries";
 export async function getAddAuthor(req: Request, res: Response) {
 	res.render("pages/addAuthor");
 }
@@ -29,7 +29,7 @@ export const postAuthorF = [
 		}
 		const { name_author } = req.body;
 		console.log(name_author);
-		// await postAuthor(name_author);
+		await postAuthor(name_author);
 		res.redirect("/manhwa/add");
 	},
 ];
