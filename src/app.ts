@@ -4,6 +4,7 @@ import path from "node:path";
 import indexRouter from "./routes";
 import manhwaRouter from "./routes/manhwa";
 import authorRouter from "./routes/author";
+import tagsRouter from "./routes/tags";
 dotenv.config();
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 app.use("/manhwa", manhwaRouter);
 app.use("/author", authorRouter);
+app.use("/tags", tagsRouter);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
