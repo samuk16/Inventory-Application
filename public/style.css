@@ -151,6 +151,7 @@ a{
 .containerCard{
       display:flex;
   justify-content:center;
+  gap:20px;
 }
 
 /* body {
@@ -189,6 +190,11 @@ a{
 
 .manhwa-card-content {
   padding: 16px;
+}
+.manhwa-card-content > p {
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
 .manhwa-card-title {
@@ -259,10 +265,10 @@ a{
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
-    display:flex;
+    /* display:flex;
     flex-direction:column;
     justify-content:center;
-    align-items:center;
+    align-items:center; */
 }
 
 .dark-form h2 {
@@ -285,6 +291,7 @@ a{
 
 .form-group input[type="text"],
 .form-group input[type="email"],
+.form-group input[type="number"],
 .form-group textarea,
 .form-group select {
     width: 100%;
@@ -299,6 +306,7 @@ a{
 
 .form-group input[type="text"]:focus,
 .form-group input[type="email"]:focus,
+.form-group input[type="number"]:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;

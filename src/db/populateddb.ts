@@ -65,8 +65,8 @@ async function main() {
 		// await client.query(SQL4);
 		// await client.query(insertQuery, [date]);
 		await client.query(insertQuery);
-		await client.query(insertQuery3);
-		await client.query(insertQuery2);
+		// await client.query(insertQuery3);
+		// await client.query(insertQuery2);
 		console.log("done");
 	} catch (err) {
 		console.log(err);
