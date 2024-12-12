@@ -31,14 +31,28 @@ export async function getManhwa(req: Request, res: Response) {
 // ];
 
 const alphaErr = "must only contain letters or numbers";
-const lenghtErr = "must be between 2 and 25 characters";
+const lenghtErr = "must be between 2 and 255 characters";
 const validatorManhwaForm = [
 	body("name_manhwa")
 		.trim()
 		.matches(/^[a-zA-Z0-9\s]+$/)
 		.withMessage(`Title manhwa ${alphaErr}`)
-		.isLength({ min: 2, max: 50 })
+		.isLength({ min: 2, max: 255 })
 		.withMessage(`Title manhwa ${lenghtErr}`),
+	body("description")
+		.trim()
+		.isLength({ min: 2, max: 255 })
+		.withMessage("Description must be between 2 and 255 characters"),
+	body("caps")
+		.trim()
+		.isNumeric()
+		.withMessage("Caps must be a number")
+		.isLength({ min: 1, max: 255 })
+		.withMessage("Caps is required"),
+	body("urlImage")
+		.trim()
+		.isLength({ min: 2, max: 255 })
+		.withMessage("Url image is required"),
 ];
 
 interface Manhwa {
