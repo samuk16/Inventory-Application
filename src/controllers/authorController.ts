@@ -14,7 +14,7 @@ const lenghtErr = "must be between 2 and 25 characters";
 const validatorAuthorForm = [
 	body("name_author")
 		.trim()
-		.isAlpha()
+		.isString()
 		.withMessage(`Author name ${alphaErr}`)
 		.isLength({ min: 2, max: 25 })
 		.withMessage(`Author name ${lenghtErr}`),
@@ -27,9 +27,17 @@ export const postAuthorF = [
 		if (!errors.isEmpty()) {
 			return res.render("pages/addAuthor", { errors: errors.array() });
 		}
-		const { name_author } = req.body;
-		console.log(name_author);
-		await postAuthor(name_author);
-		res.redirect("/manhwa/add");
+
+		try {
+			const { name_author } = req.body;
+			console.log(name_author);
+
+			await postAuthor(name_author);
+			res.redirect("/manhwa/add");
+		} catch (err) {
+			return res.render("pages/addAuthor", {
+				errors: [{ msg: "Author name is already exists" }],
+			});
+		}
 	},
 ];

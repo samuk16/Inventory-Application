@@ -1,30 +1,47 @@
 import type { Request, Response } from "express";
-import { getAllTags } from "../db/queries";
+import { getAllTags, postTag, verifyTagName } from "../db/queries";
 import { body, validationResult } from "express-validator";
 export async function getTags(req: Request, res: Response) {
 	const tags = await getAllTags();
 	res.render("pages/tags", { tags });
 }
+export async function getAddTags(req: Request, res: Response) {
+	res.render("pages/addTag");
+}
 
 const validatorTagForm = [
 	body("name_tag")
 		.trim()
-		.isAlpha()
+		.isString()
 		.withMessage("Tag is not valid")
 		.isLength({ min: 2, max: 20 })
 		.withMessage("Tag is required"),
 ];
 
-export const postTag = [
+export const postTagC = [
 	validatorTagForm,
 	async (req: Request, res: Response) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			return res.render("pages/addTag", { errors: errors.array() });
 		}
-		const { name_tag } = req.body;
-		console.log(name_tag);
-		// await postAuthor(name_tag);
-		res.redirect("/manhwa/add");
+		try {
+			const { name_tag } = req.body;
+			console.log(name_tag);
+			await postTag(name_tag);
+			res.redirect("/manhwa/add");
+		} catch (err) {
+			return res.render("pages/addTag", {
+				errors: [{ msg: "Tag already exists" }],
+			});
+			// console.log(`error esta en : ${err}`);
+		}
+
+		// const titleRepetitive = await verifyTagName(name_tag);
+		// if (titleRepetitive.length > 0) {
+		// 	return res.render("pages/addTag", {
+		// 		errors: [{ msg: "Tag already exists" }],
+		// 	});
+		// }
 	},
 ];
