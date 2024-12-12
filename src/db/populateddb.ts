@@ -6,19 +6,19 @@ import { argv } from "node:process";
 const SQL3 = `
 CREATE TABLE IF NOT EXISTS tags (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name_tag VARCHAR (25)
+  name_tag VARCHAR (25) UNIQUE
 );
 `;
 const SQL = `
 CREATE TABLE IF NOT EXISTS authors (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name_author VARCHAR (255)
+  name_author VARCHAR (255) UNIQUE
 );
 `;
 const SQL2 = `
 CREATE TABLE IF NOT EXISTS manhwas (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  title VARCHAR (255),
+  title VARCHAR (255) UNIQUE,
   description VARCHAR(255),
   caps INTEGER,
   url_img VARCHAR(255),
@@ -64,7 +64,7 @@ async function main() {
 		// await client.query(SQL2);
 		// await client.query(SQL4);
 		// await client.query(insertQuery, [date]);
-		await client.query(insertQuery);
+		// await client.query(insertQuery);
 		// await client.query(insertQuery3);
 		// await client.query(insertQuery2);
 		console.log("done");
