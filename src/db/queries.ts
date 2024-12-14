@@ -21,6 +21,12 @@ export async function getManhwaId(titleManhwa: string) {
 	]);
 	return rows;
 }
+export async function getManhwaWithId(manhwaId: number) {
+	const { rows } = await pool.query("SELECT * FROM manhwas WHERE id = $1", [
+		manhwaId,
+	]);
+	return rows;
+}
 
 export async function verifyTitleManhwa(titleManhwa: string) {
 	const { rows } = await pool.query(
@@ -70,6 +76,14 @@ export async function postTag(nameTag: string) {
 	const { rows } = await pool.query("INSERT INTO tags (name_tag) VALUES ($1)", [
 		nameTag,
 	]);
+	return rows;
+}
+
+export async function getTagsNameOfManhwa(id: number) {
+	const { rows } = await pool.query(
+		"SELECT tags.name_tag FROM manhwas JOIN manhwas_tags ON manhwas.id = manhwas_tags.manhwa_id JOIN tags ON manhwas_tags.tag_id = tags.id WHERE manhwas.id = $1",
+		[id],
+	);
 	return rows;
 }
 

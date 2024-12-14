@@ -9,6 +9,8 @@ import {
 	postManhwasTags,
 	getManhwaId,
 	verifyTitleManhwa,
+	getManhwaWithId,
+	getTagsNameOfManhwa,
 } from "../db/queries";
 import { promiseHooks } from "node:v8";
 export async function getAddManhwaGET(req: Request, res: Response) {
@@ -19,6 +21,19 @@ export async function getAddManhwaGET(req: Request, res: Response) {
 export async function getManhwa(req: Request, res: Response) {
 	const manhwas = await getAllManhwas();
 	res.render("pages/manhwa", { manhwas });
+}
+export async function getManhwaView(req: Request, res: Response) {
+	const manhwaId = req.params.id;
+	const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
+	const nameTags = await getTagsNameOfManhwa(Number.parseInt(manhwaId));
+	res.render("pages/manhwaView", { manhwa: manhwa[0], nameTags });
+}
+export async function getManhwaEdit(req: Request, res: Response) {
+	const manhwaId = req.params.id;
+	const authors = await getAllAuthors();
+	const tags = await getAllTags();
+	const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
+	res.render("pages/addManhwa", { manhwa: manhwa[0], authors, tags });
 }
 
 // const validatorManhwaForm = [

@@ -1,0 +1,73 @@
+<%- include('../partials/head') %>
+
+    <body>
+        <header>
+            <h1>Inventory Application</h1>
+            <%- include('../partials/nav') %>
+        </header>
+        <div class="container-main">
+
+            <div class="container-manhwa-view">
+                <h1 class="manhwa-title-m">
+                    <%= manhwa.title %>
+                </h1>
+                <div>
+                    <img src="<%= manhwa.url_img %>" alt="">
+
+                </div>
+                <div>
+                    <div>
+                        <h2 class="">
+                            <%= manhwa.title %>
+                        </h2>
+                        <h3>Information</h3>
+                        <p>
+                            <%= manhwa.description %>
+                        </p>
+                        <div>
+                            <div>
+                                <span class="text-gray">Chapters:</span>
+                                <span>
+                                    <%= manhwa.caps %>
+                                </span>
+
+                            </div>
+                            <div>
+                                <span class="text-gray">Tags:</span>
+                                <div class="container-tags">
+                                    <% locals.nameTags.forEach(nameTag=> { %>
+                                        <span class="tag">
+                                            <%= nameTag.name_tag %>
+
+                                        </span>
+                                        <% }); %>
+                                </div>
+                            </div>
+                            <div class="container-btns btns-mobile">
+                                <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Edit</a>
+                                <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-btns">
+                        <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Edit</a>
+                        <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Delete</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="container-chapters">
+                <h2>Chapters</h2>
+                <% Array.from({ length: manhwa.caps }, (_, index)=> index + 1).forEach(element => { %>
+                    <div>
+                        <h3>Chapter <%= element %>
+                        </h3>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
+
+    </body>
+
+
+    <%- include('../partials/footer') %>
