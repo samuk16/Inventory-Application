@@ -1,3 +1,4 @@
+import { join } from "node:path";
 import { pool } from "./pool";
 
 // MANHWAS
@@ -12,6 +13,45 @@ export async function postManhwasTags(tags: number[], manhwaId: number) {
 	const query = `INSERT INTO manhwas_tags (tag_id,manhwa_id) VALUES ${tagsArr}`;
 
 	const { rows } = await pool.query(query);
+	return rows;
+}
+export async function postUpdateManhwa(
+	title: string,
+	description: string,
+	caps: number,
+	url_img: string,
+	author_id: number,
+	manhwaId: number,
+) {
+	// const tagsArr = tags.map((tag) => `(${tag},${manhwaId})`).join(",");
+	// const query = `INSERT INTO manhwas_tags (tag_id,manhwa_id) VALUES ${tagsArr}`;
+	// const query = `INSERT INTO manhwas_tags (tag_id,manhwa_id) VALUES ${tagsArr}`;
+
+	const { rows } = await pool.query(
+		`UPDATE manhwas SET 
+		title = $1,
+		description = $2,
+		caps = $3,
+		url_img = $4,
+		author_id = $5
+		WHERE id = $6 AND (title != $1 OR description != $2 OR caps != $3 OR url_img != $4 OR author_id != $5)`,
+		[title, description, caps, url_img, author_id, manhwaId],
+	);
+	return rows;
+}
+
+export async function postUpdateManhwasTags(tags: number[], manhwaId: number) {
+	const tagsArr = tags.map((tag) => `(${tag},${manhwaId})`).join(",");
+	const query = `INSERT INTO manhwas_tags (tag_id,manhwa_id) VALUES ${tagsArr} ON CONFLICT DO NOTHING;`;
+	// const query = `UPDATE manhwas_tags SET tag_id = $1 WHERE manhwa_id = $2  ${tagsArr}`;
+
+	const { rows } = await pool.query(query);
+	return rows;
+}
+export async function deleteManhwasTags(manhwaId: number, tags: number[]) {
+	const deleteQuery = `DELETE FROM manhwas_tags WHERE manhwa_id = $1 AND tag_id NOT IN (${tags.join(",")})`;
+
+	const { rows } = await pool.query(deleteQuery, [manhwaId]);
 	return rows;
 }
 
@@ -82,6 +122,13 @@ export async function postTag(nameTag: string) {
 export async function getTagsNameOfManhwa(id: number) {
 	const { rows } = await pool.query(
 		"SELECT tags.name_tag FROM manhwas JOIN manhwas_tags ON manhwas.id = manhwas_tags.manhwa_id JOIN tags ON manhwas_tags.tag_id = tags.id WHERE manhwas.id = $1",
+		[id],
+	);
+	return rows;
+}
+export async function getTagsIdOfManhwa(id: number) {
+	const { rows } = await pool.query(
+		"SELECT tags.id FROM manhwas JOIN manhwas_tags ON manhwas.id = manhwas_tags.manhwa_id JOIN tags ON manhwas_tags.tag_id = tags.id WHERE manhwas.id = $1",
 		[id],
 	);
 	return rows;
