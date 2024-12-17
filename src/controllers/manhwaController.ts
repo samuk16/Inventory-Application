@@ -11,6 +11,10 @@ import {
 	verifyTitleManhwa,
 	getManhwaWithId,
 	getTagsNameOfManhwa,
+	getTagsIdOfManhwa,
+	postUpdateManhwa,
+	postUpdateManhwasTags,
+	deleteManhwasTags,
 } from "../db/queries";
 import { promiseHooks } from "node:v8";
 export async function getAddManhwaGET(req: Request, res: Response) {
@@ -32,8 +36,16 @@ export async function getManhwaEdit(req: Request, res: Response) {
 	const manhwaId = req.params.id;
 	const authors = await getAllAuthors();
 	const tags = await getAllTags();
+	const tagsOfManhwa = await getTagsIdOfManhwa(Number.parseInt(manhwaId));
+	const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
 	const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
-	res.render("pages/addManhwa", { manhwa: manhwa[0], authors, tags });
+	console.log(manhwa);
+	res.render("pages/editManhwa", {
+		manhwa: manhwa[0],
+		authors,
+		tags,
+		tagsOfManhwaIds,
+	});
 }
 
 // const validatorManhwaForm = [
@@ -116,23 +128,38 @@ export const postManhwaC = [
 	},
 ];
 
-// export async function postAuthor(req: Request, res: Response) {}
-interface Manhwa {
-	id: number;
-	title: string;
-	description: string;
-	caps: number;
-	urlImage: string;
-	author_id: number;
-}
-// export async function postManhwasTagsF(tags: string[], manhwaId: Manhwa[]) {
-// 	try {
-// 		await Promise.all(
-// 			tags.map(async (tag: string) => {
-// 				await postManhwasTags(manhwaId[0].id, Number(tag));
-// 			}),
-// 		);
-// 	} catch (err) {
-// 		console.log(err);
-// 	}
-// }
+export const postUpdateManhwaC = [
+	validatorManhwaForm,
+	async (req: Request, res: Response) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			const manhwaId = req.params.id;
+			const authors = await getAllAuthors();
+			const tags = await getAllTags();
+			const tagsOfManhwa = await getTagsIdOfManhwa(Number.parseInt(manhwaId));
+			const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
+			const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
+			console.log(manhwa);
+			res.render("pages/editManhwa", {
+				manhwa: manhwa[0],
+				authors,
+				tags,
+				tagsOfManhwaIds,
+			});
+		}
+		const manhwaId = req.params.id;
+		const { name_manhwa, description, caps, urlImage, tags, author }: Manhwa =
+			req.body;
+		await postUpdateManhwa(
+			name_manhwa,
+			description,
+			caps,
+			urlImage,
+			author,
+			Number.parseInt(manhwaId),
+		);
+		await postUpdateManhwasTags(tags, Number.parseInt(manhwaId));
+		await deleteManhwasTags(Number.parseInt(manhwaId), tags);
+		res.redirect("/");
+	},
+];

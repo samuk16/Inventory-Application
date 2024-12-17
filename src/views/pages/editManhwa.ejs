@@ -1,0 +1,77 @@
+<%- include('../partials/head') %>
+
+    <body>
+        <header>
+            <h1>Inventory Application</h1>
+        </header>
+
+        <div>
+            <ul>
+                <% if (locals.errors) { %>
+                    <% locals.errors.forEach((error)=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <%})%>
+                            <%} %>
+            </ul>
+        </div>
+
+        <div class="container">
+
+            <form class="dark-form" action="/manhwa/edit/<%= locals.manhwa.id %>" method="POST">
+                <h2>Add Manhwa</h2>
+                <div class="form-group">
+                    <label for="name_manhwa">Name</label>
+                    <input type="text" id="name_manhwa" name="name_manhwa" value="<%= locals.manhwa.title %> ">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description" value="<%= locals.manhwa.description %>">
+
+                </div>
+                <div class="form-group">
+                    <label for="caps">Caps</label>
+                    <input type="number" id="caps" name="caps" value="<%= locals.manhwa.caps %>">
+
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <select name="author" id="author-select">
+                        <option value="">Select a author</option>
+                        <% locals.authors.forEach(author=> { %>
+                            <option value="<%= author.id %>"
+                                selected="<%= author.id === locals.manhwa.author ? 'selected' : '' %>">
+                                <%= author.name_author %>
+                            </option>
+                            <% }); %>
+                    </select>
+                    <a href="/author/add" type="button" class="btn btn-outline">Add author</a>
+                </div>
+
+                <div class="form-group">
+                    <label for="urlImage">Tags</label>
+                    <select name="tags" id="tags-select" multiple>
+
+                        <% locals.tags.forEach((tag)=> { %>
+                            <option value="<%= tag.id %>" <%=locals.tagsOfManhwaIds.includes(tag.id) ? 'selected' :
+                                false %>>
+                                <%= tag.name_tag %>
+                            </option>
+                            <%})%>
+                    </select>
+                    <a href="/tags/add" type="button" class="btn btn-outline">Add tags</a>
+                </div>
+                <div class="form-group">
+                    <label for="urlImage">Url</label>
+                    <input type="text" id="urlImage" name="urlImage" value="<%= locals.manhwa.url_img %>">
+
+                </div>
+
+                <!-- <button type="submit" class="btn btn-primary">Delete</button> -->
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+
+        </div>
+    </body>
+    <%- include('../partials/footer') %>

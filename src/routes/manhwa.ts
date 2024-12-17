@@ -4,6 +4,8 @@ import {
 	getManhwa,
 	getManhwaView,
 	postManhwaC,
+	getManhwaEdit,
+	postUpdateManhwaC,
 } from "../controllers/manhwaController";
 
 const manhwaRouter = Router();
@@ -12,5 +14,6 @@ manhwaRouter.get("/", getManhwa);
 manhwaRouter.get("/add", getAddManhwaGET);
 manhwaRouter.post("/add", ...postManhwaC);
 manhwaRouter.get("/:id", getManhwaView);
-manhwaRouter.get("/edit/:id");
+manhwaRouter.get("/edit/:id", getManhwaEdit);
+manhwaRouter.post("/edit/:id", ...postUpdateManhwaC);
 export default manhwaRouter;
