@@ -23,10 +23,6 @@ export async function postUpdateManhwa(
 	author_id: number,
 	manhwaId: number,
 ) {
-	// const tagsArr = tags.map((tag) => `(${tag},${manhwaId})`).join(",");
-	// const query = `INSERT INTO manhwas_tags (tag_id,manhwa_id) VALUES ${tagsArr}`;
-	// const query = `INSERT INTO manhwas_tags (tag_id,manhwa_id) VALUES ${tagsArr}`;
-
 	const { rows } = await pool.query(
 		`UPDATE manhwas SET 
 		title = $1,
@@ -37,6 +33,13 @@ export async function postUpdateManhwa(
 		WHERE id = $6 AND (title != $1 OR description != $2 OR caps != $3 OR url_img != $4 OR author_id != $5)`,
 		[title, description, caps, url_img, author_id, manhwaId],
 	);
+	return rows;
+}
+
+export async function deleteManhwa(manwhaId: number) {
+	const { rows } = await pool.query("DELETE FROM manhwas WHERE id = $1", [
+		manwhaId,
+	]);
 	return rows;
 }
 

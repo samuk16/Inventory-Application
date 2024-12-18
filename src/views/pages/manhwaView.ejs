@@ -45,13 +45,20 @@
                             </div>
                             <div class="container-btns btns-mobile">
                                 <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Edit</a>
-                                <!-- <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Delete</a> -->
+                                <form action="/manhwa/<%= locals.manhwa.id %>" method="POST" style="display:inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="container-btns">
                         <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Edit</a>
-                        <!-- <a href="/manhwa/edit/<%= manhwa.id %>" class="btn btn-outline">Delete</a> -->
+                        <form action="/manhwa/<%= locals.manhwa.id %>?_method=DELETE" method="POST"
+                            style="display:inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-primary">Delete</button>
+                        </form>
                     </div>
 
                 </div>

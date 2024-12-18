@@ -21,66 +21,66 @@
 
             <form class="dark-form" action="/manhwa/add" method="POST">
                 <h2>Add Manhwa</h2>
-                <div class="form-group">
-                    <label for="name_manhwa">Name</label>
-                    <input type="text" id="name_manhwa" name="name_manhwa">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" id="description" name="description">
+                <div>
+                    <div>
+                        <div class="form-group priCol">
+                            <label for="name_manhwa">Name</label>
+                            <input type="text" id="name_manhwa" name="name_manhwa">
+                        </div>
+                        <div class="form-group priCol">
+                            <label for="description">Description</label>
+                            <input type="text" id="description" name="description">
 
-                </div>
-                <div class="form-group">
-                    <label for="caps">Caps</label>
-                    <input type="number" id="caps" name="caps">
+                        </div>
+                        <div class="form-group priCol">
+                            <label for="caps">Caps</label>
+                            <input type="number" id="caps" name="caps">
 
-                </div>
-                <div class="form-group">
-                    <label for="author">Author</label>
-                    <select name="author" id="author-select">
-                        <option value="">Select a author</option>
-                        <% locals.authors.forEach(author=> { %>
-                            <option value="<%= author.id %>">
-                                <%= author.name_author %>
-                            </option>
-                            <% }); %>
-                    </select>
-                    <a href="/author/add" type="button" class="btn btn-outline">Add author</a>
+                        </div>
+                        <div class="form-group priCol">
+                            <label for="urlImage">Url</label>
+                            <input type="text" id="urlImage" name="urlImage">
+
+                        </div>
+                        <div class="form-group priCol">
+                            <label for="passManhwa">Password</label>
+                            <input type="text" id="passManhwa" name="passManhwa">
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group author-select">
+                            <label for="author">Author</label>
+                            <select name="author" id="author-select">
+                                <option value="">Select a author</option>
+                                <% locals.authors.forEach(author=> { %>
+                                    <option value="<%= author.id %>">
+                                        <%= author.name_author %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                            <a href="/author/add" type="button" class="btn btn-outline">Add author</a>
+                        </div>
+
+                        <div class="form-group tags-select">
+                            <label for="urlImage">Tags</label>
+                            <select name="tags" id="tags-select" multiple>
+                                <% locals.tags.forEach((tag)=> { %>
+                                    <option value="<%= tag.id %>">
+                                        <%= tag.name_tag %>
+                                    </option>
+                                    <%})%>
+                            </select>
+                            <a href="/tags/add" type="button" class="btn btn-outline">Add tags</a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="urlImage">Tags</label>
-                    <select name="tags" id="tags-select" multiple>
-                        <% locals.tags.forEach((tag)=> { %>
-                            <option value="<%= tag.id %>">
-                                <%= tag.name_tag %>
-                            </option>
-                            <%})%>
-                    </select>
-                    <a href="/tags/add" type="button" class="btn btn-outline">Add tags</a>
-                </div>
-                <div class="form-group">
-                    <label for="urlImage">Url</label>
-                    <input type="text" id="urlImage" name="urlImage">
 
-                </div>
-                <!-- <div class="form-group">
-                    <label for="category">Category</label>
-                    <select id="category" name="category">
-                        <option value="">Select a category</option>
-                        <option value="general">General Inquiry</option>
-                        <option value="support">Technical Support</option>
-                        <option value="feedback">Feedback</option>
-                    </select>
-                </div> -->
-                <!-- <div class="form-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="subscribe" id="subscribe">
-                        <span class="checkbox-custom"></span>
-                        Subscribe to newsletter
-                    </label>
-                </div> -->
-                <button type="submit" class="btn btn-primary">Add Manhwa</button>
+
+
+
+                <button type="submit" class="btn btn-primary doubCol">Add Manhwa</button>
             </form>
 
         </div>

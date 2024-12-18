@@ -15,8 +15,8 @@ import {
 	postUpdateManhwa,
 	postUpdateManhwasTags,
 	deleteManhwasTags,
+	deleteManhwa,
 } from "../db/queries";
-import { promiseHooks } from "node:v8";
 export async function getAddManhwaGET(req: Request, res: Response) {
 	const authors = await getAllAuthors();
 	const tags = await getAllTags();
@@ -39,7 +39,7 @@ export async function getManhwaEdit(req: Request, res: Response) {
 	const tagsOfManhwa = await getTagsIdOfManhwa(Number.parseInt(manhwaId));
 	const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
 	const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
-	console.log(manhwa);
+	// console.log(manhwa);
 	res.render("pages/editManhwa", {
 		manhwa: manhwa[0],
 		authors,
@@ -62,6 +62,8 @@ const lenghtErr = "must be between 2 and 255 characters";
 const validatorManhwaForm = [
 	body("name_manhwa")
 		.trim()
+		.notEmpty()
+		.withMessage("Title manhwa is required")
 		.matches(/^[a-zA-Z0-9\s]+$/)
 		.withMessage(`Title manhwa ${alphaErr}`)
 		.isLength({ min: 2, max: 255 })
@@ -105,9 +107,7 @@ export const postManhwaC = [
 		}
 		const { name_manhwa, description, caps, urlImage, tags, author }: Manhwa =
 			req.body;
-		console.log(name_manhwa);
-		console.log(tags);
-		console.log(author);
+
 		const titleRepetitive = await verifyTitleManhwa(name_manhwa);
 		if (titleRepetitive.length > 0) {
 			const authors = await getAllAuthors();
@@ -128,6 +128,12 @@ export const postManhwaC = [
 	},
 ];
 
+export async function deleteManhwaC(req: Request, res: Response) {
+	const manhwaId = req.params.id;
+	await deleteManhwa(Number.parseInt(manhwaId));
+	res.redirect("/");
+}
+
 export const postUpdateManhwaC = [
 	validatorManhwaForm,
 	async (req: Request, res: Response) => {
@@ -140,11 +146,12 @@ export const postUpdateManhwaC = [
 			const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
 			const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
 			console.log(manhwa);
-			res.render("pages/editManhwa", {
+			return res.render("pages/editManhwa", {
 				manhwa: manhwa[0],
 				authors,
 				tags,
 				tagsOfManhwaIds,
+				errors: errors.array(),
 			});
 		}
 		const manhwaId = req.params.id;

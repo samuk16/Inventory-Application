@@ -100,7 +100,7 @@ a{
   background-color: #0070f3;
   color: white;
   border: 1px solid #0070f3;
-  padding: 10px 16px;
+  padding: 10px 10px;
 }
 
 .btn-primary:hover {
@@ -264,13 +264,61 @@ a{
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
-    /* display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center; */
-}
+    max-width: 500px;
+    
+    display:grid;
 
+    grid-template-columns:1fr;
+    /* column-gap:10px; */
+    /* flex-direction:column; */
+    /* flex-wrap:wrap; */
+    /* justify-content:center; */
+    /* align-items:center; */
+}
+.dark-form >:nth-child(2){
+  display:flex;
+  gap:20px;
+}
+.dark-form >:nth-child(3){
+  justify-self:center;
+}
+.dark-form >:nth-child(2)>:nth-child(2){
+  width:100%;
+}
+.dark-form >:nth-child(2)>:nth-child(2)>:nth-child(1) > label{
+  margin:0;
+}
+.dark-form >:nth-child(2)>:nth-child(2)>:nth-child(2) > label{
+  margin:0;
+}
+.dark-form >:nth-child(2)>:nth-child(1){
+  width:100%;
+}
+.dark-form > h2 {
+ grid-column-start:span 2; 
+}
+.author-select{
+  /* width:100%; */
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  /* grid-row-start:2; */
+ /* grid-column-start:2; */
+}
+.tags-select{
+  /* width:100%; */
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  
+
+}
+.priCol{
+  grid-column-start:1;
+}
+.doubCol{
+  grid-column-start: span 2;
+}
 .dark-form h2 {
     margin-top: 0;
     margin-bottom: 20px;

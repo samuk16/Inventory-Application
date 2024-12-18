@@ -5,6 +5,8 @@ import indexRouter from "./routes";
 import manhwaRouter from "./routes/manhwa";
 import authorRouter from "./routes/author";
 import tagsRouter from "./routes/tags";
+import methodOverride from "method-override";
+import { deleteManhwaC } from "./controllers/manhwaController";
 dotenv.config();
 const app = express();
 
@@ -18,6 +20,9 @@ app.use("/", indexRouter);
 app.use("/manhwa", manhwaRouter);
 app.use("/author", authorRouter);
 app.use("/tags", tagsRouter);
+
+app.use(methodOverride("_method"));
+app.delete("/manhwa/:id", deleteManhwaC);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
