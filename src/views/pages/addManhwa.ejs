@@ -44,12 +44,12 @@
                         </div>
                         <div class="form-group priCol">
                             <label for="passManhwa">Password</label>
-                            <input type="text" id="passManhwa" name="passManhwa">
+                            <input type="password" id="passManhwa" name="passManhwa">
 
                         </div>
                     </div>
                     <div>
-                        <div class="form-group author-select">
+                        <div class="form-group author-selectF">
                             <label for="author">Author</label>
                             <select name="author" id="author-select">
                                 <option value="">Select a author</option>
@@ -62,7 +62,7 @@
                             <a href="/author/add" type="button" class="btn btn-outline">Add author</a>
                         </div>
 
-                        <div class="form-group tags-select">
+                        <div class="form-group tags-selectF">
                             <label for="urlImage">Tags</label>
                             <select name="tags" id="tags-select" multiple>
                                 <% locals.tags.forEach((tag)=> { %>
@@ -75,31 +75,10 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
                 <button type="submit" class="btn btn-primary doubCol">Add Manhwa</button>
             </form>
 
         </div>
     </body>
-    <script>
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Cierra el modal al hacer clic fuera de él
-        window.onclick = function (event) {
-            const modal = document.getElementById('addModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
-    </script>
     <%- include('../partials/footer') %>

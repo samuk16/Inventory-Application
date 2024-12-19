@@ -16,7 +16,43 @@ import {
 	postUpdateManhwasTags,
 	deleteManhwasTags,
 	deleteManhwa,
+	getHashPass,
 } from "../db/queries";
+import { scrypt, randomBytes, timingSafeEqual } from "node:crypto";
+import { promisify } from "node:util";
+import { error } from "node:console";
+
+type ScryptAsync = (
+	password: string,
+	salt: string,
+	keylen: number,
+) => Promise<Buffer>;
+const scryptAsync = promisify(scrypt) as ScryptAsync;
+
+export class PasswordService {
+	private readonly keyLength = 16;
+	async hashPassword(password: string): Promise<string> {
+		const salt = randomBytes(16).toString("hex");
+		const buffer: Buffer = await scryptAsync(password, salt, this.keyLength);
+		return `${salt}:${buffer.toString("hex")}`;
+	}
+
+	async verifyPassword(password: string, hash: string): Promise<boolean> {
+		try {
+			const [salt, hashedPassword] = hash.split(":");
+			const buffer: Buffer = await scryptAsync(password, salt, this.keyLength);
+			const storedHashBuffer = Buffer.from(hashedPassword, "hex");
+
+			return timingSafeEqual(buffer, storedHashBuffer);
+		} catch (err) {
+			console.error("Error in verifyPassword", err);
+			return false;
+		}
+	}
+}
+
+const passwordService = new PasswordService();
+
 export async function getAddManhwaGET(req: Request, res: Response) {
 	const authors = await getAllAuthors();
 	const tags = await getAllTags();
@@ -82,6 +118,34 @@ const validatorManhwaForm = [
 		.trim()
 		.isLength({ min: 2, max: 255 })
 		.withMessage("Url image is required"),
+	body("passManhwa")
+		.trim()
+		.isLength({ min: 2, max: 255 })
+		.withMessage("Password is required"),
+];
+const validatorManhwaEditForm = [
+	body("name_manhwa")
+		.trim()
+		.notEmpty()
+		.withMessage("Title manhwa is required")
+		.matches(/^[a-zA-Z0-9\s]+$/)
+		.withMessage(`Title manhwa ${alphaErr}`)
+		.isLength({ min: 2, max: 255 })
+		.withMessage(`Title manhwa ${lenghtErr}`),
+	body("description")
+		.trim()
+		.isLength({ min: 2, max: 255 })
+		.withMessage("Description must be between 2 and 255 characters"),
+	body("caps")
+		.trim()
+		.isNumeric()
+		.withMessage("Caps must be a number")
+		.isLength({ min: 1, max: 255 })
+		.withMessage("Caps is required"),
+	body("urlImage")
+		.trim()
+		.isLength({ min: 2, max: 255 })
+		.withMessage("Url image is required"),
 ];
 
 interface Manhwa {
@@ -91,6 +155,7 @@ interface Manhwa {
 	urlImage: string;
 	author: number;
 	tags: number[];
+	passManhwa: string;
 }
 export const postManhwaC = [
 	validatorManhwaForm,
@@ -105,8 +170,15 @@ export const postManhwaC = [
 				errors: errors.array(),
 			});
 		}
-		const { name_manhwa, description, caps, urlImage, tags, author }: Manhwa =
-			req.body;
+		const {
+			name_manhwa,
+			description,
+			caps,
+			urlImage,
+			tags,
+			author,
+			passManhwa,
+		}: Manhwa = req.body;
 
 		const titleRepetitive = await verifyTitleManhwa(name_manhwa);
 		if (titleRepetitive.length > 0) {
@@ -119,20 +191,65 @@ export const postManhwaC = [
 			});
 		}
 
-		await postManhwa(name_manhwa, description, caps, urlImage, author);
+		const passHashed = await passwordService.hashPassword(passManhwa);
+
+		await postManhwa(
+			name_manhwa,
+			description,
+			caps,
+			urlImage,
+			author,
+			passHashed,
+		);
 		const manhwaId = await getManhwaId(name_manhwa);
 		await postManhwasTags(tags, manhwaId[0].id);
 
-		// await postAuthor(name_author);
 		res.redirect("/");
 	},
 ];
 
-export async function deleteManhwaC(req: Request, res: Response) {
-	const manhwaId = req.params.id;
-	await deleteManhwa(Number.parseInt(manhwaId));
-	res.redirect("/");
-}
+const validatorPassManhwa = [
+	body("passManhwa")
+		.trim()
+		.isLength({ min: 2, max: 255 })
+		.withMessage("Password is required"),
+];
+
+export const deleteManhwaC = [
+	validatorPassManhwa,
+	async (req: Request, res: Response) => {
+		const errors = validationResult(req);
+		const manhwaId = req.params.id;
+
+		if (!errors.isEmpty()) {
+			const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
+			const nameTags = await getTagsNameOfManhwa(Number.parseInt(manhwaId));
+			return res.render("pages/manhwaView", {
+				manhwa: manhwa[0],
+				nameTags,
+				errors: errors.array(),
+			});
+		}
+
+		const { passManhwa } = req.body;
+		const passwordHashed = await getHashPass(manhwaId);
+		const booleanPass = await passwordService.verifyPassword(
+			passManhwa,
+			passwordHashed[0].password,
+		);
+		if (!booleanPass) {
+			const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
+			const nameTags = await getTagsNameOfManhwa(Number.parseInt(manhwaId));
+			return res.render("pages/manhwaView", {
+				manhwa: manhwa[0],
+				nameTags,
+				errors: [{ msg: "Password incorrect" }],
+			});
+		}
+		await deleteManhwa(Number.parseInt(manhwaId));
+		res.redirect("/");
+	},
+];
 
 export const postUpdateManhwaC = [
 	validatorManhwaForm,
@@ -155,8 +272,37 @@ export const postUpdateManhwaC = [
 			});
 		}
 		const manhwaId = req.params.id;
-		const { name_manhwa, description, caps, urlImage, tags, author }: Manhwa =
-			req.body;
+		const {
+			name_manhwa,
+			description,
+			caps,
+			urlImage,
+			tags,
+			author,
+			passManhwa,
+		}: Manhwa = req.body;
+
+		const hashPassword = await getHashPass(manhwaId);
+		const booleanPass = await passwordService.verifyPassword(
+			passManhwa,
+			hashPassword[0].password,
+		);
+		if (!booleanPass) {
+			const manhwaId = req.params.id;
+			const authors = await getAllAuthors();
+			const tags = await getAllTags();
+			const tagsOfManhwa = await getTagsIdOfManhwa(Number.parseInt(manhwaId));
+			const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
+			const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
+			// console.log(manhwa);
+			return res.render("pages/editManhwa", {
+				manhwa: manhwa[0],
+				authors,
+				tags,
+				tagsOfManhwaIds,
+				errors: [{ msg: "Password is incorrect" }],
+			});
+		}
 		await postUpdateManhwa(
 			name_manhwa,
 			description,

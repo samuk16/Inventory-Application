@@ -85,10 +85,19 @@ export async function postManhwa(
 	caps: number,
 	url_img: string,
 	author_id: number,
+	passManhwa: string,
 ) {
 	const { rows } = await pool.query(
-		"INSERT INTO manhwas (title,description,caps,url_img,author_id) VALUES ($1,$2,$3,$4,$5)",
-		[title, description, caps, url_img, author_id],
+		"INSERT INTO manhwas (title,description,caps,url_img,author_id,password) VALUES ($1,$2,$3,$4,$5,$6)",
+		[title, description, caps, url_img, author_id, passManhwa],
+	);
+	return rows;
+}
+
+export async function getHashPass(manhwaId: string) {
+	const { rows } = await pool.query(
+		"SELECT password FROM manhwas WHERE id = $1",
+		[manhwaId],
 	);
 	return rows;
 }

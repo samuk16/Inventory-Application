@@ -22,7 +22,7 @@ app.use("/author", authorRouter);
 app.use("/tags", tagsRouter);
 
 app.use(methodOverride("_method"));
-app.delete("/manhwa/:id", deleteManhwaC);
+app.delete("/manhwa/:id", ...deleteManhwaC);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
