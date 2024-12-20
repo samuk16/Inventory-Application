@@ -2,37 +2,40 @@
 
     <body>
         <header>
-            <h1>Manhwas</h1>
+
+            <h1>Inventory Application</h1>
+            <%- include('../partials/nav') %>
         </header>
 
         <main>
             <div class="containerCard">
                 <% locals.manhwas.forEach(manhwa=> { %>
+                    <a href="/manhwa/<%= manhwa.id %>">
+                        <div class="manhwa-card">
+                            <div class="manhwa-card-header">
 
-                    <div class="manhwa-card">
-                        <div class="manhwa-card-header">
+                                <img src="<%= manhwa.url_img %>" alt="<%= manhwa.title %>" class="manhwa-card-image">
+                            </div>
 
-                            <img src="<%= manhwa.url_img %>" alt="<%= manhwa.title %>" class="manhwa-card-image">
+                            <div class="manhwa-card-content">
+                                <h2>
+                                    <%= manhwa.title %>
+                                </h2>
+                                <p>
+                                    <%= manhwa.description %>
+                                </p>
+                            </div>
+                            <div class="manhwa-card-footer">
+                                <span className="manhwa-card-chapters">
+                                    <%= manhwa.caps %> chapters
+                                </span>
+
+                            </div>
+
+
+
                         </div>
-
-                        <div class="manhwa-card-content">
-                            <h2>
-                                <%= manhwa.title %>
-                            </h2>
-                            <p>
-                                <%= manhwa.description %>
-                            </p>
-                        </div>
-                        <div class="manhwa-card-footer">
-                            <span className="manhwa-card-chapters">
-                                <%= manhwa.caps %> chapters
-                            </span>
-
-                        </div>
-
-
-
-                    </div>
+                    </a>
                     <% }); %>
             </div>
         </main>

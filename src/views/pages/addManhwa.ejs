@@ -3,6 +3,7 @@
     <body>
         <header>
             <h1>Inventory Application</h1>
+            <%- include('../partials/nav') %>
         </header>
 
         <div>
@@ -25,21 +26,25 @@
                     <div>
                         <div class="form-group priCol">
                             <label for="name_manhwa">Name</label>
-                            <input type="text" id="name_manhwa" name="name_manhwa">
+                            <input type="text" id="name_manhwa" name="name_manhwa"
+                                value="<%= locals.newManhwa ? locals.newManhwa.name_manhwa : '' %>">
                         </div>
                         <div class="form-group priCol">
                             <label for="description">Description</label>
-                            <input type="text" id="description" name="description">
+                            <input type="text" id="description" name="description" maxlength="600"
+                                value="<%= locals.newManhwa ? locals.newManhwa.description : '' %>">
 
                         </div>
                         <div class="form-group priCol">
                             <label for="caps">Caps</label>
-                            <input type="number" id="caps" name="caps">
+                            <input type="number" id="caps" name="caps"
+                                value="<%= locals.newManhwa ? locals.newManhwa.caps : '' %>">
 
                         </div>
                         <div class="form-group priCol">
                             <label for="urlImage">Url</label>
-                            <input type="text" id="urlImage" name="urlImage">
+                            <input type="text" id="urlImage" name="urlImage"
+                                value="<%= locals.newManhwa ? locals.newManhwa.urlImage : '' %>">
 
                         </div>
                         <div class="form-group priCol">
@@ -54,7 +59,8 @@
                             <select name="author" id="author-select">
                                 <option value="">Select a author</option>
                                 <% locals.authors.forEach(author=> { %>
-                                    <option value="<%= author.id %>">
+                                    <option value="<%= author.id %>" <%=locals.newManhwa ?
+                                        author.id===locals.newManhwa.author ? 'selected' : '' : '' %>>
                                         <%= author.name_author %>
                                     </option>
                                     <% }); %>
@@ -66,7 +72,8 @@
                             <label for="urlImage">Tags</label>
                             <select name="tags" id="tags-select" multiple>
                                 <% locals.tags.forEach((tag)=> { %>
-                                    <option value="<%= tag.id %>">
+                                    <option value="<%= tag.id %>" <%=locals.newManhwa ?
+                                        locals.newManhwa.tags.includes(tag.id) ? 'selected' : false: false %>>
                                         <%= tag.name_tag %>
                                     </option>
                                     <%})%>
