@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import path from "node:path";
+// import path from "node:path";
 import indexRouter from "./routes";
 import manhwaRouter from "./routes/manhwa";
 import authorRouter from "./routes/author";
@@ -8,6 +8,13 @@ import tagsRouter from "./routes/tags";
 import methodOverride from "method-override";
 import { deleteManhwaC } from "./controllers/manhwaController";
 import type { Request, Response, NextFunction } from "express";
+
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+// Obtén el equivalente de __dirname
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 

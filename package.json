@@ -2,10 +2,11 @@
   "name": "inventory-application",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/app.js",
+  "exports": "./dist/app.mjs",
   "scripts": {
-    "build": "tsc && cp-cli src/views dist/views",
+    "build": "pkgroll && cp-cli src/views dist/views",
     "dev": "tsx watch src/app.ts",
+    "start": "node dist/app.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,7 +18,10 @@
     "@types/method-override": "^3.0.0",
     "@types/node": "^22.10.1",
     "@types/pg": "^8.11.10",
+    "cp-cli": "^2.0.0",
     "dotenv": "^16.4.7",
+    "pkgroll": "^2.5.1",
+    "tslib": "^2.8.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   },
