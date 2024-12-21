@@ -19,10 +19,11 @@ const SQL2 = `
 CREATE TABLE IF NOT EXISTS manhwas (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   title VARCHAR (255) UNIQUE,
-  description VARCHAR(255),
+  description VARCHAR(600),
   caps INTEGER,
   url_img VARCHAR(255),
-  author_id INTEGER REFERENCES authors
+  author_id INTEGER REFERENCES authors,
+  password VARCHAR(255)
 );
 `;
 const SQL4 = `

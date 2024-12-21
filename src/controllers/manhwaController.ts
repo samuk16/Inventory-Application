@@ -100,52 +100,28 @@ const validatorManhwaForm = [
 		.trim()
 		.notEmpty()
 		.withMessage("Title manhwa is required")
-		.matches(/^[a-zA-Z0-9\s]+$/)
+		// .matches(/^[a-zA-Z0-9\s]+$/)
+		.isString()
 		.withMessage(`Title manhwa ${alphaErr}`)
 		.isLength({ min: 2, max: 255 })
 		.withMessage(`Title manhwa ${lenghtErr}`),
 	body("description")
 		.trim()
-		.isLength({ min: 2, max: 255 })
-		.withMessage("Description must be between 2 and 255 characters"),
+		.isLength({ min: 2, max: 600 })
+		.withMessage("Description must be between 2 and 600 characters"),
 	body("caps")
 		.trim()
 		.isNumeric()
 		.withMessage("Caps must be a number")
 		.isLength({ min: 1, max: 255 })
 		.withMessage("Caps is required"),
-	body("urlImage")
-		.trim()
-		.isLength({ min: 2, max: 255 })
-		.withMessage("Url image is required"),
+	body("urlImage").trim().optional(),
+	// .isLength({ min: 2, max: 255 })
+	// .withMessage("Url image is required"),
 	body("passManhwa")
 		.trim()
 		.isLength({ min: 2, max: 255 })
 		.withMessage("Password is required"),
-];
-const validatorManhwaEditForm = [
-	body("name_manhwa")
-		.trim()
-		.notEmpty()
-		.withMessage("Title manhwa is required")
-		.matches(/^[a-zA-Z0-9\s]+$/)
-		.withMessage(`Title manhwa ${alphaErr}`)
-		.isLength({ min: 2, max: 255 })
-		.withMessage(`Title manhwa ${lenghtErr}`),
-	body("description")
-		.trim()
-		.isLength({ min: 2, max: 255 })
-		.withMessage("Description must be between 2 and 255 characters"),
-	body("caps")
-		.trim()
-		.isNumeric()
-		.withMessage("Caps must be a number")
-		.isLength({ min: 1, max: 255 })
-		.withMessage("Caps is required"),
-	body("urlImage")
-		.trim()
-		.isLength({ min: 2, max: 255 })
-		.withMessage("Url image is required"),
 ];
 
 interface Manhwa {
@@ -160,11 +136,13 @@ interface Manhwa {
 export const postManhwaC = [
 	validatorManhwaForm,
 	async (req: Request, res: Response) => {
+		const newManhwa: Manhwa = req.body;
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			const authors = await getAllAuthors();
 			const tags = await getAllTags();
 			return res.render("pages/addManhwa", {
+				newManhwa,
 				authors,
 				tags,
 				errors: errors.array(),

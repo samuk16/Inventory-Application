@@ -2,7 +2,6 @@
 
     <body>
         <header>
-            <h1>Inventory Application</h1>
             <%- include('../partials/nav') %>
         </header>
 
@@ -11,38 +10,38 @@
             <div class="containerCard">
                 <% locals.manhwas.forEach(manhwa=> { %>
                     <a href="/manhwa/<%= manhwa.id %>">
-                        <div class="manhwa-card">
-                            <div class="manhwa-card-header">
+                        <div class="manhwa-card"">
+                            <div class=" <%=manhwa.url_img ? 'manhwa-card-header' : 'manhwa-card-noImg' %>">
 
-                                <img src="<%= manhwa.url_img %>" alt="<%= manhwa.title %>" class="manhwa-card-image">
-                            </div>
+                            <img src="<%= manhwa.url_img ? manhwa.url_img : '/svg/noImg.svg' %>"
+                                alt="<%= manhwa.title %>"
+                                class="<%= manhwa.url_img ? 'manhwa-card-image' : 'manhwa-card-noImgT' %>">
+                        </div>
 
-                            <div class="manhwa-card-content">
-                                <h2>
-                                    <%= manhwa.title %>
-                                </h2>
-                                <p>
-                                    <%= manhwa.description %>
-                                </p>
-                            </div>
-                            <div class="manhwa-card-footer">
-                                <span className="manhwa-card-chapters">
-                                    <%= manhwa.caps %> chapters
-                                </span>
-
-                            </div>
-
-
+                        <div class="manhwa-card-content">
+                            <h2>
+                                <%= manhwa.title %>
+                            </h2>
 
                         </div>
-                    </a>
-                    <% }); %>
-            </div>
-            <div class="container">
+                        <!-- <div class="manhwa-card-footer">
+                            <span className="manhwa-card-chapters">
+                                <%= manhwa.caps %> chapters
+                            </span>
 
-                <a href="/manhwa/add" class="btn btn-outline">New manhwa</a>
-                <a href="/author/add" class="btn btn-outline">New author</a>
+                        </div> -->
+
+
+
             </div>
+            </a>
+            <% }); %>
+                </div>
+                <!-- <div class="container">
+
+                    <a href="/manhwa/add" class="btn btn-outline">New manhwa</a>
+                    <a href="/author/add" class="btn btn-outline">New author</a>
+                </div> -->
         </main>
     </body>
 

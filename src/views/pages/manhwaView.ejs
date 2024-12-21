@@ -2,7 +2,6 @@
 
     <body>
         <header>
-            <h1>Inventory Application</h1>
             <%- include('../partials/nav') %>
         </header>
         <div id="addModal" class="modal">
@@ -44,7 +43,7 @@
                             <%= manhwa.title %>
                         </h1>
                         <div>
-                            <img src="<%= manhwa.url_img %>" alt="">
+                            <img src="<%= manhwa.url_img ? manhwa.url_img : '/svg/noImg.svg' %>" alt="">
 
                         </div>
                         <div>
