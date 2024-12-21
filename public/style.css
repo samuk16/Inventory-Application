@@ -67,7 +67,7 @@ main{
   flex:1;
       display:flex;
       flex-direction:column;
-  justify-content:center;
+  justify-content:start;
   align-items:center;
   gap:20px;
 }
@@ -674,4 +674,18 @@ color:#9ca3af;
 .containerBento >:nth-child(4){
   grid-column-start:span 3;
   grid-row-start:2;
+}
+
+.containerErr{
+
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+
+}
+.containerErr > h1 {
+    font-size:10rem;
 }
