@@ -121,7 +121,20 @@ const validatorManhwaForm = [
 		.isLength({ min: 1, max: 255 })
 		.withMessage("Caps is required"),
 	body("urlImage").trim().optional(),
+	body("author").trim().isNumeric().withMessage("Please select an author"),
+	body("tags").custom((value) => {
+		if (!value) {
+			throw new Error("Please select at least one tag");
+		}
 
+		if (typeof value === "string") {
+			return true;
+		}
+		if (Array.isArray(value)) {
+			return true;
+		}
+		throw new Error("Please select at least one tag");
+	}),
 	body("passManhwa")
 		.trim()
 		.isLength({ min: 2, max: 255 })
@@ -140,6 +153,16 @@ interface Manhwa {
 export const postManhwaC = [
 	validatorManhwaForm,
 	async (req: Request, res: Response) => {
+		const {
+			name_manhwa,
+			description,
+			caps,
+			urlImage,
+			tags,
+			author,
+			passManhwa,
+		}: Manhwa = req.body;
+		console.log(tags);
 		const newManhwa: Manhwa = req.body;
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
@@ -152,15 +175,6 @@ export const postManhwaC = [
 				errors: errors.array(),
 			});
 		}
-		const {
-			name_manhwa,
-			description,
-			caps,
-			urlImage,
-			tags,
-			author,
-			passManhwa,
-		}: Manhwa = req.body;
 
 		const titleRepetitive = await verifyTitleManhwa(name_manhwa);
 		if (titleRepetitive.length > 0) {
@@ -171,6 +185,12 @@ export const postManhwaC = [
 				tags,
 				errors: [{ msg: "Manhwa already exists" }],
 			});
+		}
+		let tagArr: number[];
+		if (typeof tags === "string") {
+			tagArr = [Number.parseInt(tags)];
+		} else {
+			tagArr = tags;
 		}
 
 		const passHashed = await passwordService.hashPassword(passManhwa);
@@ -184,7 +204,8 @@ export const postManhwaC = [
 			passHashed,
 		);
 		const manhwaId = await getManhwaId(name_manhwa);
-		await postManhwasTags(tags, manhwaId[0].id);
+
+		await postManhwasTags(tagArr, manhwaId[0].id);
 
 		res.redirect("/");
 	},
