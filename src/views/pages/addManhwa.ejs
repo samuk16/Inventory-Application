@@ -16,75 +16,122 @@
                             <%} %>
             </ul>
         </div>
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <div class="containerModal">
 
-        <div class="container">
 
-            <form class="dark-form" action="/manhwa/add" method="POST">
-                <h2>Add Manhwa</h2>
-                <div>
-                    <div>
-                        <div class="form-group priCol">
-                            <label for="name_manhwa">Name</label>
-                            <input type="text" id="name_manhwa" name="name_manhwa"
-                                value="<%= locals.newManhwa ? locals.newManhwa.name_manhwa : '' %>">
-                        </div>
-                        <div class="form-group priCol">
-                            <label for="description">Description</label>
-                            <input type="text" id="description" name="description" maxlength="600"
-                                value="<%= locals.newManhwa ? locals.newManhwa.description : '' %>">
+                    Selecting multiple options vary in different operating systems and browsers:
+                    <ul style="margin-inline-start: 30px;">
+                        <li>For windows: Hold down the control (ctrl) button to select multiple options</li>
+                        <li>For Mac: Hold down the command button to select multiple options</li>
+                    </ul>
 
-                        </div>
-                        <div class="form-group priCol">
-                            <label for="caps">Caps</label>
-                            <input type="number" id="caps" name="caps"
-                                value="<%= locals.newManhwa ? locals.newManhwa.caps : '' %>">
 
-                        </div>
-                        <div class="form-group priCol">
-                            <label for="urlImage">Url</label>
-                            <input type="text" id="urlImage" name="urlImage"
-                                value="<%= locals.newManhwa ? locals.newManhwa.urlImage : '' %>">
 
-                        </div>
-                        <div class="form-group priCol">
-                            <label for="passManhwa">Password</label>
-                            <input type="password" id="passManhwa" name="passManhwa">
-
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group author-selectF">
-                            <label for="author">Author</label>
-                            <select name="author" id="author-select">
-                                <option value="">Select a author</option>
-                                <% locals.authors.forEach(author=> { %>
-                                    <option value="<%= author.id %>" <%=locals.newManhwa ?
-                                        author.id===locals.newManhwa.author ? 'selected' : '' : '' %>>
-                                        <%= author.name_author %>
-                                    </option>
-                                    <% }); %>
-                            </select>
-                            <a href="/author/add" type="button" class="btn btn-outline">Add author</a>
-                        </div>
-
-                        <div class="form-group tags-selectF">
-                            <label for="urlImage">Tags</label>
-                            <select name="tags" id="tags-select" multiple>
-                                <% locals.tags.forEach((tag)=> { %>
-                                    <option value="<%= tag.id %>" <%=locals.newManhwa ?
-                                        locals.newManhwa.tags.includes(tag.id) ? 'selected' : false: false %>>
-                                        <%= tag.name_tag %>
-                                    </option>
-                                    <%})%>
-                            </select>
-                            <a href="/tags/add" type="button" class="btn btn-outline">Add tags</a>
-                        </div>
-                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary doubCol">Add Manhwa</button>
-            </form>
-
+            </div>
         </div>
-    </body>
+        <main>
 
+            <div class="container">
+
+                <form class="dark-form" action="/manhwa/add" method="POST">
+                    <h2>Add Manhwa</h2>
+                    <div>
+                        <div>
+                            <div class="form-group priCol">
+                                <label for="name_manhwa">Name</label>
+                                <input type="text" id="name_manhwa" name="name_manhwa"
+                                    value="<%= locals.newManhwa ? locals.newManhwa.name_manhwa : '' %>">
+                            </div>
+                            <div class="form-group priCol">
+                                <label for="description">Description</label>
+                                <input type="text" id="description" name="description" maxlength="600"
+                                    value="<%= locals.newManhwa ? locals.newManhwa.description : '' %>">
+
+                            </div>
+                            <div class="form-group priCol">
+                                <label for="caps">Caps</label>
+                                <input type="number" id="caps" name="caps"
+                                    value="<%= locals.newManhwa ? locals.newManhwa.caps : '' %>">
+
+                            </div>
+                            <div class="form-group priCol">
+                                <label for="urlImage">Url</label>
+                                <input type="text" id="urlImage" name="urlImage"
+                                    value="<%= locals.newManhwa ? locals.newManhwa.urlImage : '' %>">
+
+                            </div>
+                            <div class="form-group priCol">
+                                <label for="passManhwa">Password</label>
+                                <input type="password" id="passManhwa" name="passManhwa">
+
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group author-selectF">
+                                <label for="author">Author</label>
+                                <select name="author" id="author-select">
+                                    <option value="">Select a author</option>
+                                    <% locals.authors.forEach(author=> { %>
+                                        <option value="<%= author.id %>" <%=locals.newManhwa ?
+                                            author.id===locals.newManhwa.author ? 'selected' : '' : '' %>>
+                                            <%= author.name_author %>
+                                        </option>
+                                        <% }); %>
+                                </select>
+                                <a href="/author/add" type="button" class="btn btn-outline">Add author</a>
+                            </div>
+
+                            <div class="form-group tags-selectF">
+                                <label for="urlImage" style="
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: space-between;
+                                        ">Tags
+                                    <img src="/svg/info.svg" alt="" width="16" height="16" class="infoModal"
+                                        onclick="openModal('addModal')">
+                                </label>
+                                <select name="tags" id="tags-select" multiple>
+                                    <% locals.tags.forEach((tag)=> { %>
+                                        <option value="<%= tag.id %>" <%=locals.newManhwa ?
+                                            locals.newManhwa.tags.includes(tag.id) ? 'selected' : false: false %>>
+                                            <%= tag.name_tag %>
+                                        </option>
+                                        <%})%>
+                                </select>
+                                <a href="/tags/add" type="button" class="btn btn-outline">Add tags</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary doubCol">Add Manhwa</button>
+                </form>
+
+            </div>
+        </main>
+    </body>
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('addModal');
+            const modalError = document.getElementById('modalError');
+            if (event.target === modal || event.target === modalError) {
+                modal.style.display = 'none';
+                modalError.style.display = 'none';
+            }
+        };
+        document.addEventListener('DOMContentLoaded', function () {
+            const url = new URL(window.location.href);
+            history.replaceState({}, '', url.pathname);
+        });
+    </script>
     <%- include('../partials/footer') %>

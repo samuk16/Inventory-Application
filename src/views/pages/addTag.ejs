@@ -1,11 +1,11 @@
 <%- include('../partials/head') %>
 
-    <div id="addModal">
-        <div class="modal-content2">
+    <div class="containerMiniForm">
+        <div class="container">
 
             <% if (locals.errors) {%>
                 <ul>
-                    <% errors.forEach(function(error) { %>
+                    <% errors.forEach((error)=> { %>
                         <li>
                             <%= error.msg %>
                         </li>
@@ -18,7 +18,7 @@
                             <input type="text" name="name_tag" id="name_tag" placeholder="Tag name">
 
                         </div>
-                        <button type="submit" class="btnSubmit">Add tag</button>
+                        <button type="submit" class="btn btn-primary" style="justify-self: center;">Add tag</button>
                     </form>
         </div>
 

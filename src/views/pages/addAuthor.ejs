@@ -1,11 +1,11 @@
 <%- include('../partials/head') %>
 
-    <div id="addModal">
-        <div class="modal-content">
+    <div class="containerMiniForm">
+        <div class="container">
 
             <% if (locals.errors) {%>
                 <ul>
-                    <% errors.forEach(function(error) { %>
+                    <% errors.forEach((error)=> { %>
                         <li>
                             <%= error.msg %>
                         </li>
@@ -18,10 +18,10 @@
                             <input type="text" name="name_author" id="name_author" placeholder="Name author">
 
                         </div>
-                        <button type="submit" class="btnSubmit">Add author</button>
+                        <button type="submit" class="btn btn-primary" style="justify-self: center;">Add author</button>
                     </form>
         </div>
 
-    </div>
+    </div class="containerMiniForm">
 
     <%- include('../partials/footer') %>
