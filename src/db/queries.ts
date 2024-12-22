@@ -111,6 +111,13 @@ export async function postAuthor(name: string) {
 	);
 	return rows;
 }
+export async function getSpecificAuthor(authorId: number) {
+	const { rows } = await pool.query(
+		"SELECT manhwas.* FROM manhwas JOIN authors ON manhwas.author_id = authors.id WHERE manhwas.author_id = $1",
+		[authorId],
+	);
+	return rows;
+}
 
 export async function getAllAuthors() {
 	const { rows } = await pool.query("SELECT * FROM authors");
@@ -130,10 +137,17 @@ export async function postTag(nameTag: string) {
 	]);
 	return rows;
 }
+export async function getSpecificTag(tagId: number) {
+	const { rows } = await pool.query(
+		"SELECT manhwas.* FROM manhwas JOIN manhwas_tags ON manhwas.id = manhwas_tags.manhwa_id JOIN tags ON manhwas_tags.tag_id = tags.id WHERE manhwas_tags.tag_id = $1",
+		[tagId],
+	);
+	return rows;
+}
 
 export async function getTagsNameOfManhwa(id: number) {
 	const { rows } = await pool.query(
-		"SELECT tags.name_tag FROM manhwas JOIN manhwas_tags ON manhwas.id = manhwas_tags.manhwa_id JOIN tags ON manhwas_tags.tag_id = tags.id WHERE manhwas.id = $1",
+		"SELECT tags.name_tag, tags.id FROM manhwas JOIN manhwas_tags ON manhwas.id = manhwas_tags.manhwa_id JOIN tags ON manhwas_tags.tag_id = tags.id WHERE manhwas.id = $1",
 		[id],
 	);
 	return rows;

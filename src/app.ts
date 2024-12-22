@@ -1,6 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-// import path from "node:path";
 import indexRouter from "./routes";
 import manhwaRouter from "./routes/manhwa";
 import authorRouter from "./routes/author";
@@ -12,8 +11,7 @@ import type { Request, Response, NextFunction } from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Obtén el equivalente de __dirname
-const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
@@ -47,9 +45,13 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
 
 	const statusCode = err.status || 500;
 
-	// if (statusCode === 404) {
-	res.render("pages/404");
-	// }
+	if (statusCode === 404) {
+		res.render("pages/404");
+	} else {
+		res.status(statusCode).render("pages/404", {
+			message: err.message || "Internal Server Error",
+		});
+	}
 });
 
 app.listen(PORT, () => {

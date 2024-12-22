@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { getAllAuthors, postAuthor } from "../db/queries";
+import { getAllAuthors, getSpecificAuthor, postAuthor } from "../db/queries";
 export async function getAddAuthor(req: Request, res: Response) {
 	res.render("pages/addAuthor");
 }

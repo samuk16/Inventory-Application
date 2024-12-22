@@ -8,11 +8,13 @@
         <div class="container-authors">
             <% if (locals.authors) { %>
                 <% authors.forEach(author=> { %>
-                    <div class="author-card">
-                        <h2>
-                            <%= author.name_author %>
-                        </h2>
-                    </div>
+                    <a href="/manhwa?author=<%= author.id %>">
+                        <div class="author-card">
+                            <h2>
+                                <%= author.name_author %>
+                            </h2>
+                        </div>
+                    </a>
                     <% }) %>
                         <% } %>
         </div>

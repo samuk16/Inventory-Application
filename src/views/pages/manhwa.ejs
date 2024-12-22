@@ -8,32 +8,35 @@
 
         <main>
             <div class="containerCard">
-                <% locals.manhwas.forEach(manhwa=> { %>
-                    <a href="/manhwa/<%= manhwa.id %>">
-                        <div class="manhwa-card">
-                            <div class="manhwa-card-header">
+                <% if (locals.manhwas) { %>
+                    <% locals.manhwas.forEach(manhwa=> { %>
+                        <a href="/manhwa/<%= manhwa.id %>">
+                            <div class="manhwa-card">
+                                <div class="manhwa-card-header">
 
-                                <img src="<%= manhwa.url_img %>" alt="<%= manhwa.title %>" class="manhwa-card-image">
+                                    <img src="<%= manhwa.url_img %>" alt="<%= manhwa.title %>"
+                                        class="manhwa-card-image">
+                                </div>
+
+                                <div class="manhwa-card-content">
+                                    <h2>
+                                        <%= manhwa.title %>
+                                    </h2>
+
+                                </div>
+                                <div class="manhwa-card-footer">
+                                    <span className="manhwa-card-chapters">
+                                        <%= manhwa.caps %> chapters
+                                    </span>
+
+                                </div>
+
+
+
                             </div>
-
-                            <div class="manhwa-card-content">
-                                <h2>
-                                    <%= manhwa.title %>
-                                </h2>
-
-                            </div>
-                            <div class="manhwa-card-footer">
-                                <span className="manhwa-card-chapters">
-                                    <%= manhwa.caps %> chapters
-                                </span>
-
-                            </div>
-
-
-
-                        </div>
-                    </a>
-                    <% }); %>
+                        </a>
+                        <% }); %>
+                            <% } %>
             </div>
         </main>
     </body>

@@ -1,5 +1,10 @@
 import type { Request, Response } from "express";
-import { getAllTags, postTag, verifyTagName } from "../db/queries";
+import {
+	getAllTags,
+	getSpecificTag,
+	postTag,
+	verifyTagName,
+} from "../db/queries";
 import { body, validationResult } from "express-validator";
 export async function getTags(req: Request, res: Response) {
 	const tags = await getAllTags();
@@ -7,6 +12,13 @@ export async function getTags(req: Request, res: Response) {
 }
 export async function getAddTags(req: Request, res: Response) {
 	res.render("pages/addTag");
+}
+
+export async function getManhwaOfTag(req: Request, res: Response) {
+	const tagId = req.query.id;
+	const manhwas = await getSpecificTag(Number.parseInt(tagId as string));
+	console.log(manhwas);
+	// res.render("pages/manhwasOfTag", { manhwas });
 }
 
 const validatorTagForm = [

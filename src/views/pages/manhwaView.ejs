@@ -67,10 +67,12 @@
                                         <span class="text-gray">Tags:</span>
                                         <div class="container-tags">
                                             <% locals.nameTags.forEach(nameTag=> { %>
-                                                <span class="tag">
-                                                    <%= nameTag.name_tag %>
+                                                <a href="/manhwa?tag=<%= nameTag.id %>">
+                                                    <span class="tag">
+                                                        <%= nameTag.name_tag %>
 
-                                                </span>
+                                                    </span>
+                                                </a>
                                                 <% }); %>
                                         </div>
                                     </div>

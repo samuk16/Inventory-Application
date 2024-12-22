@@ -17,6 +17,8 @@ import {
 	deleteManhwasTags,
 	deleteManhwa,
 	getHashPass,
+	getSpecificTag,
+	getSpecificAuthor,
 } from "../db/queries";
 import { scrypt, randomBytes, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
@@ -59,6 +61,20 @@ export async function getAddManhwaGET(req: Request, res: Response) {
 	res.render("pages/addManhwa", { authors, tags });
 }
 export async function getManhwa(req: Request, res: Response) {
+	const tagId = req.query.tag;
+	const authorId = req.query.author;
+	if (tagId) {
+		const manhwasFiltered = await getSpecificTag(
+			Number.parseInt(tagId as string),
+		);
+		return res.render("pages/manhwa", { manhwas: manhwasFiltered });
+	}
+	if (authorId) {
+		const manhwasFiltered = await getSpecificAuthor(
+			Number.parseInt(authorId as string),
+		);
+		return res.render("pages/manhwa", { manhwas: manhwasFiltered });
+	}
 	const manhwas = await getAllManhwas();
 	res.render("pages/manhwa", { manhwas });
 }
