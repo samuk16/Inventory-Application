@@ -14,13 +14,6 @@ export async function getAddTags(req: Request, res: Response) {
 	res.render("pages/addTag");
 }
 
-export async function getManhwaOfTag(req: Request, res: Response) {
-	const tagId = req.query.id;
-	const manhwas = await getSpecificTag(Number.parseInt(tagId as string));
-	console.log(manhwas);
-	// res.render("pages/manhwasOfTag", { manhwas });
-}
-
 const validatorTagForm = [
 	body("name_tag")
 		.trim()
@@ -39,21 +32,12 @@ export const postTagC = [
 		}
 		try {
 			const { name_tag } = req.body;
-			console.log(name_tag);
 			await postTag(name_tag);
 			res.redirect("/manhwa/add");
 		} catch (err) {
 			return res.render("pages/addTag", {
 				errors: [{ msg: "Tag already exists" }],
 			});
-			// console.log(`error esta en : ${err}`);
 		}
-
-		// const titleRepetitive = await verifyTagName(name_tag);
-		// if (titleRepetitive.length > 0) {
-		// 	return res.render("pages/addTag", {
-		// 		errors: [{ msg: "Tag already exists" }],
-		// 	});
-		// }
 	},
 ];

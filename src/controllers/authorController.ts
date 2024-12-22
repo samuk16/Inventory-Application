@@ -30,7 +30,6 @@ export const postAuthorF = [
 
 		try {
 			const { name_author } = req.body;
-			console.log(name_author);
 
 			await postAuthor(name_author);
 			res.redirect("/manhwa/add");

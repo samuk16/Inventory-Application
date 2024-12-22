@@ -4,20 +4,22 @@
         <header>
             <%- include('../partials/nav') %>
         </header>
+        <main>
 
-        <div class="container-authors">
-            <% if (locals.authors) { %>
-                <% authors.forEach(author=> { %>
-                    <a href="/manhwa?author=<%= author.id %>">
-                        <div class="author-card">
-                            <h2>
-                                <%= author.name_author %>
-                            </h2>
-                        </div>
-                    </a>
-                    <% }) %>
-                        <% } %>
-        </div>
+            <div class="container-authors">
+                <% if (locals.authors) { %>
+                    <% authors.forEach(author=> { %>
+                        <a href="/manhwa?author=<%= author.id %>">
+                            <div class="author-card">
+                                <h2>
+                                    <%= author.name_author %>
+                                </h2>
+                            </div>
+                        </a>
+                        <% }) %>
+                            <% } %>
+            </div>
+        </main>
     </body>
 
     <%- include('../partials/footer') %>

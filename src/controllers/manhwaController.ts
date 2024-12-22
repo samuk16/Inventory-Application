@@ -91,7 +91,6 @@ export async function getManhwaEdit(req: Request, res: Response) {
 	const tagsOfManhwa = await getTagsIdOfManhwa(Number.parseInt(manhwaId));
 	const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
 	const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
-	// console.log(manhwa);
 	res.render("pages/editManhwa", {
 		manhwa: manhwa[0],
 		authors,
@@ -100,15 +99,6 @@ export async function getManhwaEdit(req: Request, res: Response) {
 	});
 }
 
-// const validatorManhwaForm = [
-// 	body("name_manhwa")
-// 		.trim()
-// 		.isAlpha()
-// 		.withMessage("Name is not valid")
-// 		.isLength({ min: 2, max: 255 })
-// 		.withMessage("Name is required"),
-// ];
-
 const alphaErr = "must only contain letters or numbers";
 const lenghtErr = "must be between 2 and 255 characters";
 const validatorManhwaForm = [
@@ -116,7 +106,6 @@ const validatorManhwaForm = [
 		.trim()
 		.notEmpty()
 		.withMessage("Title manhwa is required")
-		// .matches(/^[a-zA-Z0-9\s]+$/)
 		.isString()
 		.withMessage(`Title manhwa ${alphaErr}`)
 		.isLength({ min: 2, max: 255 })
@@ -132,8 +121,7 @@ const validatorManhwaForm = [
 		.isLength({ min: 1, max: 255 })
 		.withMessage("Caps is required"),
 	body("urlImage").trim().optional(),
-	// .isLength({ min: 2, max: 255 })
-	// .withMessage("Url image is required"),
+
 	body("passManhwa")
 		.trim()
 		.isLength({ min: 2, max: 255 })
@@ -256,7 +244,6 @@ export const postUpdateManhwaC = [
 			const tagsOfManhwa = await getTagsIdOfManhwa(Number.parseInt(manhwaId));
 			const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
 			const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
-			console.log(manhwa);
 			return res.render("pages/editManhwa", {
 				manhwa: manhwa[0],
 				authors,
@@ -288,7 +275,6 @@ export const postUpdateManhwaC = [
 			const tagsOfManhwa = await getTagsIdOfManhwa(Number.parseInt(manhwaId));
 			const tagsOfManhwaIds = tagsOfManhwa.map((tag: { id: number }) => tag.id);
 			const manhwa = await getManhwaWithId(Number.parseInt(manhwaId));
-			// console.log(manhwa);
 			return res.render("pages/editManhwa", {
 				manhwa: manhwa[0],
 				authors,

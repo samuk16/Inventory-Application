@@ -41,17 +41,13 @@ app.get("*", (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
-	console.error(err.stack);
+	// console.error(err.stack);
 
 	const statusCode = err.status || 500;
 
-	if (statusCode === 404) {
-		res.render("pages/404");
-	} else {
-		res.status(statusCode).render("pages/404", {
-			message: err.message || "Internal Server Error",
-		});
-	}
+	res.status(statusCode).render("pages/404", {
+		message: err.message || "Internal Server Error",
+	});
 });
 
 app.listen(PORT, () => {
